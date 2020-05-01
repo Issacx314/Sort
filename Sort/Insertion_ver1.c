@@ -3,18 +3,15 @@
 ****************************************************************************
 * Title        : Sort by insertion
 *
+* Environment  : Simulated  
 *
-* Environment  : Simulated
-*
-* Responsible  : Issac Jiménez
+* Responsible  : Issac Jimenez
 *****************************************************************************************************/
 
 #include <stdio.h>
 #include <conio.h>
 
-
-#define SIZE   10 /*array size*/
-
+typedef _Bool(*mycallback)(char, unsigned int, unsigned int);
 
 /***************************************************************************
 * Interface Description: INSERTION__sort
@@ -23,58 +20,82 @@
 *
 * Return Value         : void
 *
-* Author               : Issac Jiménez
+* Author               : Issac Jimï¿½nez
 ****************************************************************************/
+/*An array is automatically passed by reference*/
+/*void INSERTION__vSort(
 
-void INSERTION__sort(
+	unsigned int u32array[], 
+    unsigned char u32nelemns,
+	mycallback CallFunc
+);*/
 
-	int u32array[]
-	/*An array is automatically passed by reference*/
+//_Bool CallFunc_bCmp(char s8Counter, unsigned int u32array_element, unsigned int u32Temp);
 
-);
-
-
-void main(int argc, const char * argv[])
+void INSERTION__vSort(unsigned int u32array[], unsigned int u32Num_elements, mycallback CallFunc)
 {
-	int u32Array[SIZE] = {12,9,0,2,3,0,7,13,11,1};
-	char u8count;
+	char s8count_a, s8count_b;
+	unsigned int u32temp;
+
+	for (s8count_a=1; s8count_a<u32Num_elements; s8count_a++) /*first search*/
+	{
+		u32temp = u32array[s8count_a];
+		s8count_b = s8count_a - 1;
+
+		while (CallFunc(s8count_b, u32array[s8count_b], u32temp)) /*-> call back function*/
+		{
+			u32array[s8count_b + 1] = u32array[s8count_b];
+			s8count_b--;
+		}
+
+		u32array[s8count_b + 1] = u32temp;
+	}
+
+}
+
+
+_Bool CallFunc_bCmp(char s8Counter, unsigned int u32array_element, unsigned int u32Temp)
+{
+	_Bool boflag = 0;
+
+	if ((0 <= s8Counter) && (u32array_element > u32Temp))
+	{
+		boflag = 1;
+	}
+	else {
+		boflag = 0;
+	}
+	return boflag;
+}
+
+
+int main(int argc, const char * argv[])
+{
+	unsigned int u32Array[] = {10,9,0,2,3,0,7,13,11,1,4,5,12};
+	unsigned int u32Nelemnts;
+	char s8count;
+
+	u32Nelemnts = sizeof(u32Array)/sizeof(int);
 
 	printf("\n Apilcation for sort an array by Insertion sort method \n");
 
-	for (u8count = 0; u8count<SIZE; u8count++)
+	for (s8count = 0; s8count<(char)u32Nelemnts; s8count++)
 	{
-		printf(" %d", u32Array[u8count]);
+		printf(" %d", u32Array[s8count]);
 	}
 
 
-	INSERTION__sort(u32Array);
+	INSERTION__vSort(u32Array, u32Nelemnts, CallFunc_bCmp);
 
-	printf("\n Array sorted \n");
-	for (u8count = 0; u8count<SIZE; u8count++)
+	printf("\n\n Array sorted \n");
+	for (s8count = 0; s8count<(char)u32Nelemnts; s8count++)
 	{
-		printf(" %d", u32Array[u8count]);
+		printf(" %d", u32Array[s8count]);
 	}
 
 	_getch();
+	return 0;
 }
 
 
-void INSERTION__sort(int u32array[])
-{
-	char u8count_a, u8count_b, u8temp;
 
-	for (u8count_a=1; u8count_a<SIZE; u8count_a++) /*first search*/
-	{
-		u8temp = u32array[u8count_a];
-		u8count_b = u8count_a - 1;
-
-		while ((0 <= u8count_b) && (u32array[u8count_b] > u8temp))
-		{
-			u32array[u8count_b + 1] = u32array[u8count_b];
-			u8count_b--;
-		}
-
-		u32array[u8count_b + 1] = u8temp;
-	}
-
-}
