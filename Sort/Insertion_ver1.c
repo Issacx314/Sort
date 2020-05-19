@@ -23,15 +23,6 @@ typedef _Bool(*mycallback)(char, unsigned int, unsigned int);
 * Author               : Issac Jim�nez
 ****************************************************************************/
 /*An array is automatically passed by reference*/
-/*void INSERTION__vSort(
-
-	unsigned int u32array[], 
-    unsigned char u32nelemns,
-	mycallback CallFunc
-);*/
-
-//_Bool CallFunc_bCmp(char s8Counter, unsigned int u32array_element, unsigned int u32Temp);
-
 void INSERTION__vSort(unsigned int u32array[], unsigned int u32Num_elements, mycallback CallFunc)
 {
 	char s8count_a, s8count_b;
@@ -69,15 +60,17 @@ _Bool CallFunc_bCmp(char s8Counter, unsigned int u32array_element, unsigned int 
 }
 
 
-int main(int argc, const char * argv[])
+void main(int argc, const char * argv[])
 {
-	unsigned int u32Array[] = {10,9,0,2,3,0,7,13,11,1,4,5,12};
+	unsigned int u32Array[] = {10,9,0,2,3,1,7,13,11,0,1,4,5,3,8,0,1};
 	unsigned int u32Nelemnts;
 	char s8count;
 
 	u32Nelemnts = sizeof(u32Array)/sizeof(int);
 
 	printf("\n Apilcation for sort an array by Insertion sort method \n");
+
+	printf("\n Original array \n");
 
 	for (s8count = 0; s8count<(char)u32Nelemnts; s8count++)
 	{
@@ -94,7 +87,6 @@ int main(int argc, const char * argv[])
 	}
 
 	_getch();
-	return 0;
 }
 
 
